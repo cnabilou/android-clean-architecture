@@ -1,0 +1,151 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+def keystorePropertiesFiles = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFiles))
+
+android {
+    signingConfigs {
+        config {
+            storeFile file(keystoreProperties['storeFile'])
+            keyAlias keystoreProperties["keyAlias"]
+            keyPassword keystoreProperties['keyPassword']
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+    }
+    defaultConfig {
+        applicationId "com.smartservices.com.baseapp"
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        multiDexEnabled = true
+        versionCode 1
+        versionName "1.0.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    flavorDimensions "version"
+    productFlavors {
+        beta {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // This property is optional if you are using only one dimension.
+            dimension "version"
+            applicationIdSuffix ".beta"
+            versionNameSuffix "-beta"
+        }
+        playStore {
+            dimension "version"
+        }
+    }
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
+        staging {
+            /**
+             * The `initWith` property allows you to copy configurations from other build types,
+             * then configure only the settings you want to change. This one copies the release build
+             * type, and then changes the manifest placeholder and application ID.
+             */
+            initWith release
+            applicationIdSuffix ".staging"
+            versionNameSuffix '-staging'
+            debuggable true
+            signingConfig signingConfigs.config
+        }
+        release {
+//            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+    }
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+configurations.all {
+    resolutionStrategy {
+        force "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+}
+
+
+dependencies {
+    def appDependencies = rootProject.ext.appDependencies
+    def appTestDependencies = rootProject.ext.appTestDependencies
+    implementation project(':presentation')
+    implementation project(':data')
+    implementation project(':cache')
+    implementation project(':remote')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation appDependencies.javaxAnnotation
+    implementation appDependencies.kotlin
+    implementation appDependencies.javaxInject
+    implementation appDependencies.rxKotlin
+    implementation appDependencies.androidAnnotations
+    implementation appDependencies.androidSupportV4
+    implementation appDependencies.androidSupportV13
+    implementation appDependencies.appCompatV7
+    implementation appDependencies.supportRecyclerView
+    implementation appDependencies.supportDesign
+    implementation appDependencies.timber
+    implementation appDependencies.rxAndroid
+    kapt appDependencies.glassfishAnnotation
+    implementation appDependencies.glide
+    kapt appDependencies.glideCompiler
+    implementation appDependencies.dagger
+    kapt appDependencies.daggerCompiler
+    kapt appDependencies.daggerProcessor
+    implementation appDependencies.daggerSupport
+    implementation appDependencies.constraintLayout
+    implementation appDependencies.cardViewV7
+    testImplementation appTestDependencies.kotlinJUnit
+    // Instrumentation test dependencies
+    androidTestImplementation appTestDependencies.junit
+    androidTestImplementation appTestDependencies.mockito
+    androidTestImplementation appTestDependencies.mockitoAndroid
+    androidTestImplementation(appTestDependencies.espressoCore) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(appTestDependencies.androidRunner) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(appTestDependencies.androidRules) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(appTestDependencies.espressoIntents) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(appTestDependencies.espressoContrib) {
+        exclude module: 'appcompat'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'design'
+    }
+}
