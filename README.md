@@ -12,8 +12,14 @@ The clean architecture may not make sense to all projects. So it is up the devel
 # Requirements
  
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
 1.	Installation process
+    You will have to create a new file in the root directory of the project called `keystore.properties` and needs to the following information:
+    
+        `storePassword=YourStorePassword
+         keyPassword=YourKeyPassword
+         keyAlias=YourKeyAlias
+         storeFile=../keystore`
+    The values in the files are only needed if you decide to run this project in release mode.
 2.	Software dependencies
 3.	Latest releases
 4.	API references
