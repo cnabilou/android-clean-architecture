@@ -21,6 +21,8 @@ class MinionCacheImpl @Inject constructor(
     private val minionEntityMapper: MinionEntityMapper,
     private val preferencesHelper: PreferencesHelper): MinionCache {
 
+
+
     private val EXPIRATION_TIME = 1.toLong() //(60 * 10 * 1000).toLong()
     private val database = MinionDatabase.getInstance(context)
 
@@ -41,9 +43,16 @@ class MinionCacheImpl @Inject constructor(
     override fun saveMinions(minions: List<MinionEntity>): Completable {
         return Completable.defer {
             minions.forEach {
-                saveMinion(minionEntityMapper.mapToCached(it))
+                saveCachedMinion(minionEntityMapper.mapToCached(it))
             }
                 Completable.complete()
+        }
+    }
+
+    override fun saveMinion(minion: MinionEntity): Completable {
+        return Completable.defer {
+            saveCachedMinion(minionEntityMapper.mapToCached(minion))
+            Completable.complete()
         }
     }
 
@@ -75,7 +84,7 @@ class MinionCacheImpl @Inject constructor(
         return currentTime - lastUpdateTime > EXPIRATION_TIME
     }
 
-    private fun saveMinion(cachedMinion: CachedMinion) {
+    private fun saveCachedMinion(cachedMinion: CachedMinion) {
         ioThread {
             database.minionDao().saveMinion(cachedMinion)
         }

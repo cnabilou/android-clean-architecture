@@ -12,5 +12,6 @@ import io.reactivex.Single
 interface MinionDataStore {
     fun clearMinions(): Completable
     fun saveMinions(minions: List<MinionEntity>): Completable
+    fun saveMinion(minion: MinionEntity): Completable
     fun getMinions(): Single<List<MinionEntity>>
 }
