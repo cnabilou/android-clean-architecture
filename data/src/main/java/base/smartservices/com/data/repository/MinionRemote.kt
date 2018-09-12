@@ -1,6 +1,7 @@
 package base.smartservices.com.data.repository
 
 import base.smartservices.com.data.model.MinionEntity
+import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
@@ -9,7 +10,17 @@ import io.reactivex.Single
  */
 interface MinionRemote {
     /**
-     * Retrieve a list Minions, from the cache
+     * Retrieve a list Minions, from the remote data store
      */
     fun getMinions(): Single<List<MinionEntity>>
+
+    /**
+     * Save a given MinionModel to the remote data store
+     */
+    fun saveMinion(minion: MinionEntity): Completable
+
+    /**
+     * Clear all the minions from the remote data store
+     */
+    fun clearMinions(): Completable
 }

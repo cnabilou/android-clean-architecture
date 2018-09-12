@@ -21,6 +21,10 @@ interface MinionCache {
     fun saveMinions(minions: List<MinionEntity>): Completable
 
     /**
+     * Save a given Minion instance to the cache
+     */
+    fun saveMinion(minion: MinionEntity): Completable
+    /**
      * Retrieve a list of Minions, from the cache
      */
     fun getMinions(): Single<List<MinionEntity>>

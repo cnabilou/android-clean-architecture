@@ -1,9 +1,10 @@
 package com.smartservices.com.baseapp.browse
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.Toast
 import base.smartservices.com.presentation.browse.BrowseMinionsContract
 import base.smartservices.com.presentation.model.MinionView
 import com.smartservices.com.baseapp.R
@@ -50,6 +51,10 @@ class BrowseActivity : AppCompatActivity(), BrowseMinionsContract.View {
         browseAdapter.minions = minions.map { mapper.mapToViewModel(it) }
         browseAdapter.notifyDataSetChanged()
         recycler_browse.visibility = View.VISIBLE
+    }
+
+    override fun savedMinion() {
+        Toast.makeText(this, R.string.Minion_Was_Saved, Toast.LENGTH_LONG).show()
     }
 
     override fun hideMinions() {
