@@ -20,6 +20,8 @@ The clean architecture may not make sense to all projects. So it is up the devel
          keyAlias=YourKeyAlias
          storeFile=../keystore`
     The values in the files are only needed if you decide to run this project in release mode.
+
+    You also need to store your keystore file on the root folder
 2.	Software dependencies
 3.	Latest releases
 4.	API references

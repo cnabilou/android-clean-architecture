@@ -11,3 +11,4 @@
 .externalNativeBuild
 /caches
 keystore.properties
+keystore
