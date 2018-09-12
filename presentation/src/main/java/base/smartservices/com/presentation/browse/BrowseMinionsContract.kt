@@ -1,5 +1,6 @@
 package base.smartservices.com.presentation.browse
 
+import base.smartservices.com.domain.model.Minion
 import base.smartservices.com.presentation.BasePresenter
 import base.smartservices.com.presentation.BaseView
 import base.smartservices.com.presentation.model.MinionView
@@ -12,6 +13,7 @@ interface BrowseMinionsContract {
         fun showProgress()
         fun hideProgress()
         fun showMinions(minions: List<MinionView>)
+        fun savedMinion()
         fun hideMinions()
         fun showErrorState()
         fun hideErrorState()
@@ -21,5 +23,6 @@ interface BrowseMinionsContract {
 
     interface Presenter : BasePresenter {
         fun retrieveMinions()
+        fun saveMinion(minion: Minion)
     }
 }

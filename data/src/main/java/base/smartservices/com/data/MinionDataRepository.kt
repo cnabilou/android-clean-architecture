@@ -27,6 +27,11 @@ class MinionDataRepository @Inject constructor(
         return saveMinionEntities(minionEntities)
     }
 
+    override fun saveMinion(minion: Minion): Completable {
+        val minionEntity = minionMapper.mapToEntity(minion)
+        return saveMinionEntity(minionEntity)
+    }
+
     override fun getMinions(): Single<List<Minion>> {
         // Calls the data and returns the appropriate Data Store
         val dataStore = factory.retrieveDataStore()
@@ -48,6 +53,10 @@ class MinionDataRepository @Inject constructor(
 
     private fun saveMinionEntities(minions: List<MinionEntity>): Completable {
         return factory.retrieveCacheDataStore().saveMinions(minions)
+    }
+
+    private fun saveMinionEntity(minion: MinionEntity): Completable {
+        return factory.retrieveCacheDataStore().saveMinion(minion)
     }
 
 }

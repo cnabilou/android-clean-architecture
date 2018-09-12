@@ -5,6 +5,7 @@ import base.smartservices.com.data.repository.MinionDataStore
 import base.smartservices.com.data.repository.MinionRemote
 import io.reactivex.Completable
 import io.reactivex.Single
+import sun.reflect.generics.reflectiveObjects.NotImplementedException
 import javax.inject.Inject
 
 /**
@@ -13,16 +14,29 @@ import javax.inject.Inject
  */
 open class MinionRemoteDataStore @Inject constructor(private val minionRemote: MinionRemote): MinionDataStore {
 
-    override fun clearMinions(): Completable {
-        throw UnsupportedOperationException()
-    }
-
-    override fun saveMinions(minions: List<MinionEntity>): Completable {
-        throw UnsupportedOperationException()
+    /**
+     * Save a given Minion instance to the remote data source
+     */
+    override fun saveMinion(minion: MinionEntity): Completable {
+        throw NotImplementedException()
     }
 
     /**
-     * Retrieve a list of [MinionEntity] instance from the API
+     * Clear all [MinionEntity] from the remote data source
+     */
+    override fun clearMinions(): Completable {
+        throw NotImplementedException()
+    }
+
+    /**
+     * Save a given [List] of [MinionEntity] to the remote data source
+     */
+    override fun saveMinions(minions: List<MinionEntity>): Completable {
+        throw NotImplementedException()
+    }
+
+    /**
+     * Retrieve a list of [MinionEntity] instance from the remote data source
      */
     override fun getMinions(): Single<List<MinionEntity>> {
         return minionRemote.getMinions()

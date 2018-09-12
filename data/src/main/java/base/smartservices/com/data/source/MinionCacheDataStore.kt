@@ -28,6 +28,10 @@ open class MinionCacheDataStore @Inject constructor(
         return minionCache.saveMinions(minions)
     }
 
+    override fun saveMinion(minion: MinionEntity): Completable {
+        return minionCache.saveMinion(minion)
+    }
+
     /**
      * Retrieve a list of [MinionEntity] instance from the cache.
      */

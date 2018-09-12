@@ -1,5 +1,6 @@
 package com.smartservices.com.baseapp.injection.module
 
+import base.smartservices.com.domain.interactor.browse.AddMinionInteractor
 import base.smartservices.com.domain.interactor.browse.GetMinionsInteractor
 import base.smartservices.com.presentation.browse.BrowseMinionsContract
 import base.smartservices.com.presentation.browse.BrowseMinionsPresenter
@@ -25,7 +26,8 @@ class BrowseActivityModule {
     @Provides
     internal fun provideBrowsePresenter(mainView: BrowseMinionsContract.View,
                                         getMinions: GetMinionsInteractor,
+                                        addMinion: AddMinionInteractor,
                                         mapper: MinionMapper): BrowseMinionsContract.Presenter {
-        return BrowseMinionsPresenter(mainView, getMinions, mapper)
+        return BrowseMinionsPresenter(mainView, getMinions, addMinion, mapper)
     }
 }

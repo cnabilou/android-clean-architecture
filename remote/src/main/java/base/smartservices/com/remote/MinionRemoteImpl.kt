@@ -3,7 +3,10 @@ package base.smartservices.com.remote
 import base.smartservices.com.data.model.MinionEntity
 import base.smartservices.com.data.repository.MinionRemote
 import base.smartservices.com.remote.mapper.MinionEntityMapper
+import base.smartservices.com.remote.model.MinionModel
+import io.reactivex.Completable
 import io.reactivex.Single
+import sun.reflect.generics.reflectiveObjects.NotImplementedException
 import javax.inject.Inject
 
 /**
@@ -15,7 +18,21 @@ class MinionRemoteImpl @Inject constructor(private val minionService: MinionServ
                                            private val entityMapper: MinionEntityMapper): MinionRemote {
 
     /**
-     * Retrieve a list of [MinionEntity] instnace from the [MinionService].
+     * Save a given instance of the remote data store
+     */
+    override fun saveMinion(minion: MinionEntity): Completable {
+        throw NotImplementedException()
+    }
+
+    /**
+     * Clear all minions from the remote data store
+     */
+    override fun clearMinions(): Completable {
+        throw NotImplementedException()
+    }
+
+    /**
+     * Retrieve a list of [MinionEntity] instance from the [MinionService].
      */
     override fun getMinions(): Single<List<MinionEntity>> {
         return minionService.getMinions()
