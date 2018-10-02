@@ -3,19 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-def keystorePropertiesFiles = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFiles))
-
 android {
-    signingConfigs {
-        config {
-            storeFile file(keystoreProperties['storeFile'])
-            keyAlias keystoreProperties["keyAlias"]
-            keyPassword keystoreProperties['keyPassword']
-            storePassword keystoreProperties['storePassword']
-        }
-    }
     def globalConfiguration = rootProject.extensions.getByName("ext")
     compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
     buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
@@ -72,12 +60,10 @@ android {
             applicationIdSuffix ".staging"
             versionNameSuffix '-staging'
             debuggable true
-            signingConfig signingConfigs.config
         }
         release {
 //            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
         }
     }
 }
