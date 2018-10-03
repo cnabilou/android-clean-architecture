@@ -11,12 +11,6 @@ pipeline {
                         sh './gradlew checkStyle'
                     }
                 }
-
-                stage('Unit Test') {
-                    steps {
-                        sh './gradlew testStagingDebug'
-                    }
-                }
             }
         }
     }
