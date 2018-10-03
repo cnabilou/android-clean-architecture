@@ -8,7 +8,7 @@ pipeline {
             parallel {
                 stage('checkStyle') {
                     steps {
-                        sh '.gradlew checkStyle'
+                        sh './gradlew checkStyle'
                     }
                 }
 
